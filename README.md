@@ -29,21 +29,6 @@ VITE_SUPABASE_URL=https://xxxxx.supabase.co
 VITE_SUPABASE_ANON_KEY=xxxxxxxxxxxxxxxx
 ```
 
-### 3. 설치 및 실행
-
-```bash
-npm install
-npm run dev
-```
-
-### 4. 배포 (Vercel)
-
-PRD 권장안대로 Vercel 무료 티어에 배포합니다.
-
-1. 이 저장소를 GitHub에 올리고 Vercel에서 Import 합니다. (프레임워크: Vite)
-2. Vercel 프로젝트의 Environment Variables에 `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`를 등록합니다.
-3. Deploy 하면 끝입니다. 별도 서버 배포가 필요 없습니다.
-
 ## 사용 흐름
 
 1. 첫 방문자는 팀 이름과 팀원 이름을 입력해 보드를 생성합니다 (`teams`, `members` 테이블에 저장).
