@@ -10,11 +10,13 @@ export function CardView({
   members,
   onClick,
   onStart,
+  onComplete,
 }: {
   card: CardRecord;
   members: Member[];
   onClick?: () => void;
   onStart?: (cardId: string) => void;
+  onComplete?: (cardId: string) => void;
 }) {
   const urgency = getUrgency(card);
   const checklist = card.checklist ?? [];
@@ -42,8 +44,12 @@ export function CardView({
     <div className={`card ${cardUrgencyClass}`} onClick={onClick} role="button" tabIndex={0}>
       <div className="card-top">
         <p className="card-title">{card.title}</p>
-        {card.priority && <span className={`priority-dot priority-${card.priority}`} title={`우선순위: ${PRIORITY_LABEL[card.priority]}`} />}
       </div>
+      {card.priority && (
+        <span className={`priority-badge priority-badge-${card.priority}`}>
+          {PRIORITY_LABEL[card.priority]}
+        </span>
+      )}
       {card.description && <p className="card-desc">{card.description}</p>}
       {progressPercent !== null && (
         <div className="checklist-progress">
@@ -69,6 +75,18 @@ export function CardView({
           }}
         >
           ▶ 시작하기
+        </button>
+      )}
+      {card.status === "in_progress" && onComplete && (
+        <button
+          type="button"
+          className="complete-card-btn"
+          onClick={(e) => {
+            e.stopPropagation();
+            onComplete(card.id);
+          }}
+        >
+          ✓ 완료
         </button>
       )}
       {card.link &&

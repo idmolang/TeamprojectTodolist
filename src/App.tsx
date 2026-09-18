@@ -1,5 +1,7 @@
+import { useState } from "react";
 import { isSupabaseConfigured } from "./lib/supabase";
 import { useTeamResolver } from "./hooks/useTeamResolver";
+import { LandingScreen } from "./components/LandingScreen";
 import { CreateTeamScreen } from "./components/CreateTeamScreen";
 import { JoinTeamScreen } from "./components/JoinTeamScreen";
 import { BoardScreen } from "./components/BoardScreen";
@@ -7,6 +9,7 @@ import "./App.css";
 
 function App() {
   const { stage, createTeam, joinAsMember } = useTeamResolver();
+  const [showLanding, setShowLanding] = useState(true);
 
   if (!isSupabaseConfigured) {
     return (
@@ -43,6 +46,9 @@ function App() {
   }
 
   if (stage.kind === "create") {
+    if (showLanding) {
+      return <LandingScreen onStart={() => setShowLanding(false)} />;
+    }
     return <CreateTeamScreen onCreate={createTeam} />;
   }
 

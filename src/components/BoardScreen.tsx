@@ -167,6 +167,7 @@ export function BoardScreen({ team, member }: { team: Team; member: CurrentMembe
               onAddCard={(s) => setModal({ kind: "create", status: s })}
               onOpenCard={(card) => setModal({ kind: "edit", cardId: card.id })}
               onStartCard={(cardId) => moveCard(cardId, "in_progress", Number.MAX_SAFE_INTEGER)}
+              onCompleteCard={(cardId) => moveCard(cardId, "done", Number.MAX_SAFE_INTEGER)}
             />
           ))}
         </main>

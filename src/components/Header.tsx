@@ -2,6 +2,19 @@ import { useState } from "react";
 import type { Member, Team } from "../types";
 import { AvatarStack } from "./Avatar";
 
+// 레이스 컨디션 등으로 같은 이름이 중복 등록되어도 프로필 아바타는 한 명당 하나만 보여준다.
+function uniqueMemberNames(members: Member[]): string[] {
+  const seen = new Set<string>();
+  const names: string[] = [];
+  for (const m of members) {
+    const key = m.name.trim().toLowerCase();
+    if (seen.has(key)) continue;
+    seen.add(key);
+    names.push(m.name);
+  }
+  return names;
+}
+
 export function Header({
   team,
   members,
@@ -53,7 +66,7 @@ export function Header({
         </button>
       </div>
       <div className="header-right">
-        <AvatarStack names={members.map((m) => m.name)} max={6} size={30} />
+        <AvatarStack names={uniqueMemberNames(members)} max={6} size={30} />
         <button type="button" className="btn btn-secondary" onClick={onOpenMembers}>
           팀원 관리
         </button>

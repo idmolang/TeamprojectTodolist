@@ -8,11 +8,13 @@ export function SortableCard({
   members,
   onOpen,
   onStart,
+  onComplete,
 }: {
   card: CardRecord;
   members: Member[];
   onOpen: (card: CardRecord) => void;
   onStart: (cardId: string) => void;
+  onComplete: (cardId: string) => void;
 }) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: card.id });
 
@@ -24,7 +26,7 @@ export function SortableCard({
 
   return (
     <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
-      <CardView card={card} members={members} onClick={() => onOpen(card)} onStart={onStart} />
+      <CardView card={card} members={members} onClick={() => onOpen(card)} onStart={onStart} onComplete={onComplete} />
     </div>
   );
 }

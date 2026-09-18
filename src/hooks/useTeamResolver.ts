@@ -103,11 +103,24 @@ export function useTeamResolver() {
         .insert({ team_id: team.id, name: trimmed })
         .select()
         .single();
-      if (createError || !created) {
+      if (createError?.code === "23505") {
+        // 그 사이 다른 사람(또는 다른 탭)이 같은 이름으로 먼저 등록한 경우: 새로 만들지 않고 기존 행을 사용한다.
+        const { data: raceWinner } = await supabase
+          .from("members")
+          .select("*")
+          .eq("team_id", team.id)
+          .ilike("name", trimmed);
+        if (!raceWinner || raceWinner.length === 0) {
+          setStage({ kind: "error", message: "팀원 등록에 실패했습니다." });
+          return;
+        }
+        memberId = raceWinner[0].id;
+      } else if (createError || !created) {
         setStage({ kind: "error", message: "팀원 등록에 실패했습니다: " + (createError?.message ?? "") });
         return;
+      } else {
+        memberId = created.id;
       }
-      memberId = created.id;
     }
 
     const member: CurrentMember = { id: memberId, name: trimmed };

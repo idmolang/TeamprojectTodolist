@@ -57,7 +57,7 @@ export function CardModal({ mode, card, members, onClose, onSave, onDelete, onQu
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [card?.id]);
 
-  const showChecklist = mode === "edit" && card && card.status !== "todo" && onUpdateChecklist;
+  const showChecklist = mode === "edit" && card && onUpdateChecklist;
 
   async function persistChecklist(next: ChecklistItem[]) {
     setChecklist(next);

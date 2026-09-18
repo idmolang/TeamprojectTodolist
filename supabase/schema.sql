@@ -36,6 +36,8 @@ create table if not exists cards (
 );
 
 create index if not exists members_team_idx on members (team_id);
+-- 팀 내 동일 이름(대소문자 무시) 중복 등록 방지 (레이스 컨디션으로 인한 이중 클릭 등에도 안전)
+create unique index if not exists members_team_id_lower_name_key on members (team_id, lower(name));
 create index if not exists cards_team_status_idx on cards (team_id, status, position);
 
 -- updated_at 자동 갱신

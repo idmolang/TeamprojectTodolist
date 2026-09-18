@@ -189,7 +189,9 @@ export function useBoardData(teamId: string | null): UseBoardDataResult {
         .insert(uniqueNew.map((name) => ({ team_id: teamId, name })))
         .select();
       if (insertError) {
-        setError(insertError.message);
+        // 23505 = unique_violation: 다른 요청이 그 사이 같은 이름을 먼저 등록한 경우로,
+        // 사용자에게 에러로 보여줄 필요 없이 실시간 구독이 최신 목록을 채워준다.
+        if (insertError.code !== "23505") setError(insertError.message);
         return [];
       }
       const rows = (data ?? []) as Member[];

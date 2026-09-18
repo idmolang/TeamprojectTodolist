@@ -12,6 +12,7 @@ export function Column({
   onAddCard,
   onOpenCard,
   onStartCard,
+  onCompleteCard,
 }: {
   status: CardStatus;
   cardIds: string[];
@@ -20,6 +21,7 @@ export function Column({
   onAddCard: (status: CardStatus) => void;
   onOpenCard: (card: CardRecord) => void;
   onStartCard: (cardId: string) => void;
+  onCompleteCard: (cardId: string) => void;
 }) {
   const { setNodeRef } = useDroppable({ id: status });
 
@@ -39,7 +41,16 @@ export function Column({
           {cardIds.map((id) => {
             const card = cardsById.get(id);
             if (!card) return null;
-            return <SortableCard key={id} card={card} members={members} onOpen={onOpenCard} onStart={onStartCard} />;
+            return (
+              <SortableCard
+                key={id}
+                card={card}
+                members={members}
+                onOpen={onOpenCard}
+                onStart={onStartCard}
+                onComplete={onCompleteCard}
+              />
+            );
           })}
         </div>
       </SortableContext>
